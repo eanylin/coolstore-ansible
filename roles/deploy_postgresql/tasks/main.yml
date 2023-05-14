@@ -1,0 +1,105 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
+
+- name: Check if reboot is required
+  ansible.builtin.command: "dnf needs-restarting -r"
+  ignore_errors: yes
+  register: reboot_required
+
+- name : Reboot server
+  ansible.builtin.reboot:
+    msg: "Reboot initiated by Ansible after OS update"
+    reboot_timeout: 300
+    test_command: uptime
+  when: reboot_required.rc == 1
+
+- name: Install postgresql and firewalld packages
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "@Development tools"
+    - firewalld
+    - postgresql-devel
+    - postgresql-server
+    - python3-devel
+
+- name: Install psycopg2
+  ansible.builtin.pip:
+    name: psycopg2
+
+- name: Check if PostgreSQL is initialized
+  ansible.builtin.stat:
+    path: /var/lib/pgsql/data/pg_hba.conf
+  register: postgresql_data
+
+- name: Initialize PostgreSQL
+  ansible.builtin.command: postgresql-setup initdb
+  when: not postgresql_data.stat.exists
+
+- name: Start and enable postgresql and firewalld services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - firewalld
+    - postgresql
+
+- name: Set postgres user password
+  ansible.builtin.command: sudo -u postgres psql -c "ALTER USER postgres PASSWORD '{{ postgres_user_password }}';"
+
+- name: Enable PostgreSQL server to listen on all available networks
+  ansible.builtin.lineinfile:
+    path: /var/lib/pgsql/data/postgresql.conf
+    line: listen_addresses = '*'
+    insertbefore: '^\#listen_addresses.*'
+
+- name: Use md5 authentication for postgres user for local connection
+  ansible.builtin.lineinfile:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: '^local.*all.*all.*peer$'
+    line: 'local   all     all     md5'
+
+- name: Grant user access, enable MD5-encrypted password authentication
+  community.postgresql.postgresql_pg_hba:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    contype: host
+    users: all
+    source: 0.0.0.0/0
+    databases: all
+    method: md5
+
+- name: Restart postgresql service
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted
+
+- name: Create database
+  community.postgresql.postgresql_db:
+    name: "{{ database }}"
+    login_user: postgres
+    login_password: "{{ postgres_user_password }}"
+    login_host: "{{ postgres_host_ip }}"
+
+- name: Connect to database, create user and grant access to database
+  community.postgresql.postgresql_user:
+    db: "{{ database }}"
+    name: "{{ database_user }}"
+    password: "{{ database_user_password }}"
+    role_attr_flags: CREATEDB,NOSUPERUSER
+    expires: infinity
+    login_user: postgres
+    login_password: "{{ postgres_user_password }}"
+    login_host: "{{ postgres_host_ip }}"
+
+- name: Permit traffic for postgresql service
+  ansible.posix.firewalld:
+    service: postgresql
+    zone: public
+    permanent: true
+    immediate: true
+    state: enabled

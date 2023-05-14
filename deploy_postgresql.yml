@@ -1,0 +1,15 @@
+---
+- name: Deploy Postgresql
+  hosts: postgresql-1
+  remote_user: ec2-user
+  become: yes
+  gather_facts: no
+  vars:
+    database: coolstore
+    database_user: ansible
+    database_user_password: ansible
+    postgres_user_password: postgres
+    postgres_host_ip: 10.10.10.10
+
+  roles:
+    - deploy_postgresql

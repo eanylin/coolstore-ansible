@@ -1,0 +1,39 @@
+---
+- name: Create a target group with instance targets
+  community.aws.elb_target_group:
+    name: "{{ app_server_target_group }}"
+    protocol: http
+    port: "{{ app_listener_port }}"
+    vpc_id: "{{ aws_vpc_id }}"
+    health_check_protocol: http
+    health_check_path: /
+    successful_response_codes: "200"
+    targets:
+      - Id: "{{ app_server1_id }}"
+        Port: "{{ app_listener_port }}"
+      - Id: "{{ app_server2_id }}"
+        Port: "{{ app_listener_port }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+    region: "{{ aws_region }}"
+    state: present
+
+- name: Create Application LB and Attach Listener
+  amazon.aws.elb_application_lb:
+    name: "{{ app_server_alb }}"
+    security_groups:
+      - "{{ aws_security_group }}"
+    subnets:
+      - "{{ aws_vpc_subnet_id_zone_a }}"
+      - "{{ aws_vpc_subnet_id_zone_b }}"
+    listeners:
+      - Protocol: HTTP
+        Port: "{{ app_listener_port }}"
+        DefaultActions:
+          - Type: forward
+            TargetGroupName: "{{ app_server_target_group }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+    region: "{{ aws_region }}"
+    state: present
+    wait: true

@@ -1,0 +1,21 @@
+---
+- name: Deploy AWS Application Load Balancer
+  hosts: localhost
+  become: no
+  gather_facts: no
+  vars:
+    aws_access_key: xyz
+    aws_region: ap-southeast-1
+    aws_secret_key: xyz
+    aws_security_group: sg-xyz
+    aws_vpc_id: vpc-xyz
+    aws_vpc_subnet_id_zone_a: subnet-abc
+    aws_vpc_subnet_id_zone_b: subnet-xyz
+    app_server_target_group: coolstore-app-target-group
+    app_server_alb: coolstore-alb
+    app_listener_port: 8080
+    app_server1_id: i-abc
+    app_server2_id: i-xyz
+
+  roles:
+    - deploy_aws_application_lb

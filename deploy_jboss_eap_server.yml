@@ -1,0 +1,15 @@
+---
+- name: Deploy and Configure JBoss EAP Servers
+  hosts: jboss
+  remote_user: ec2-user
+  become: yes
+  gather_facts: no
+  vars:
+    app_database: "coolstore"
+    app_database_user: "ansible"
+    app_database_user_password: "ansible"
+    jboss_eap_directory: "/opt/jboss-eap-7.4"
+    psql_server: "10.10.10.10"
+
+  roles:
+    - deploy_jboss_eap_server

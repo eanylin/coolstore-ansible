@@ -1,0 +1,71 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
+
+- name: Check if reboot is required
+  ansible.builtin.command: "dnf needs-restarting -r"
+  ignore_errors: yes
+  register: reboot_required
+
+- name : Reboot server
+  ansible.builtin.reboot:
+    msg: "Reboot initiated by Ansible after OS update"
+    reboot_timeout: 600
+    test_command: uptime
+  when: reboot_required.rc == 1
+
+- name: Install the required packages
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - augeas
+    - bsdtar
+    - firewalld
+    - java-11-openjdk-devel
+    - tmux
+    - unzip
+    - xmlstarlet
+
+- name: Extract jboss-eap into /opt
+  ansible.builtin.unarchive:
+    src: files/jboss-eap-7.4.0.zip
+    dest: /opt
+
+- name: Extract JDBC driver for postgresql
+  ansible.builtin.unarchive:
+    src: files/org.zip
+    dest: "{{ jboss_eap_directory }}/modules/"
+
+- name: Generate standalone.xml
+  ansible.builtin.template:
+    src: templates/standalone.xml.j2
+    dest: "{{ jboss_eap_directory }}//standalone/configuration/standalone.xml"
+
+- name: Create jboss user
+  ansible.builtin.user:
+    name: jboss
+    comment: JBoss User
+
+- name: Update ownership of jboss-eap directory
+  ansible.builtin.file:
+    path: "{{ jboss_eap_directory }}"
+    state: directory
+    recurse: yes
+    owner: jboss
+    group: jboss
+
+- name: Start and enable firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Permit traffic on port 8080
+  ansible.posix.firewalld:
+    port: 8080/tcp
+    permanent: true
+    state: enabled
+    immediate: true

@@ -1,0 +1,19 @@
+---
+- name: Create JBoss Application Server
+  amazon.aws.ec2_instance:
+    name: "{{ item }}"
+    key_name: "{{ aws_key_name }}"
+    vpc_subnet_id: "{{ aws_vpc_subnet_id }}"
+    instance_type: "{{ aws_instance_type }}"
+    security_group: "{{ aws_security_group }}"
+    network:
+      assign_public_ip: true
+    image_id: "{{ aws_image_id }}"
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+    region: "{{ aws_region }}"
+    state: running
+    wait: true
+  loop:
+    - jboss-eap-1
+    - jboss-eap-2

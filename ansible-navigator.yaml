@@ -1,0 +1,7 @@
+---
+ansible-navigator:
+  mode: stdout
+  playbook-artifact:
+    enable: false
+  execution-environment:
+    image: 'quay.io/julin/ee_coolstore_image:1.0'

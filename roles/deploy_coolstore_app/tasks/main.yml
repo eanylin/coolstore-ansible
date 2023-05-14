@@ -1,0 +1,18 @@
+---
+- name: Copy coolstore WAR file
+  ansible.builtin.copy:
+    src: files/ROOT.war
+    dest: "{{ app_deployment_path }}/ROOT.war"
+    owner: jboss
+    group: jboss
+
+- name: Start JBoss EAP Server
+  ansible.builtin.command: tmux new-session -d -s jboss '/opt/jboss-eap-7.4/bin/standalone.sh'
+
+- name: Wait for coolstore app to be ready
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:8080"
+  register: _result
+  until: _result.status == 200
+  retries: 5
+  delay: 10
