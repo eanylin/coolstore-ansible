@@ -16,7 +16,7 @@
     test_command: uptime
   when: reboot_required.rc == 1
 
-- name: Install postgresql and firewalld packages
+- name: Install packages
   ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
