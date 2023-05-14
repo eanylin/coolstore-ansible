@@ -1,5 +1,5 @@
 ---
-- name: Create JBoss Application Server
+- name: Create EC2 Instances
   amazon.aws.ec2_instance:
     name: "{{ item }}"
     key_name: "{{ aws_key_name }}"
