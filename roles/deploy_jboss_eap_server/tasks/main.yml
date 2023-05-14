@@ -12,7 +12,7 @@
 - name : Reboot server
   ansible.builtin.reboot:
     msg: "Reboot initiated by Ansible after OS update"
-    reboot_timeout: 600
+    reboot_timeout: 300
     test_command: uptime
   when: reboot_required.rc == 1
 
@@ -29,9 +29,25 @@
     - unzip
     - xmlstarlet
 
+- name: Download jboss-eap-7.4.0.zip from s3 bucket
+  amazon.aws.s3_object:
+    bucket: "{{ aws_bucket_name }}"
+    object: "{{ aws_object_name }}"
+    dest: "/tmp/{{ aws_object_name }}"
+    mode: get
+    access_key: "{{ aws_access_key }}"
+    secret_key: "{{ aws_secret_key }}"
+    region: "{{ aws_region }}"
+  delegate_to: localhost
+
+- name: Copy jboss-eap-7.4.0.zip to Application Server
+  ansible.builtin.copy:
+    src: "/tmp/{{ aws_object_name }}"
+    dest: "/tmp/{{ aws_object_name }}"
+
 - name: Extract jboss-eap into /opt
   ansible.builtin.unarchive:
-    src: files/jboss-eap-7.4.0.zip
+    src: "/tmp/{{ aws_object_name }}"
     dest: /opt
 
 - name: Extract JDBC driver for postgresql
