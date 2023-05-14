@@ -14,6 +14,4 @@
     region: "{{ aws_region }}"
     state: running
     wait: true
-  loop:
-    - jboss-eap-1
-    - jboss-eap-2
+  loop: "{{ servers_to_be_deployed }}"

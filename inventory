@@ -4,4 +4,3 @@ jboss-eap-2 ansible_host=10.10.10.6
 
 [postgresql]
 postgresql-1 ansible_host=10.10.10.10
-postgresql-2 ansible_host=10.10.10.11
