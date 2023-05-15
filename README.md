@@ -26,3 +26,6 @@
 
 ## TODO
 - Create workflow using Ansible Automation Platform for end-to-end automation
+
+## Special Mention
+The JBoss EAP 7.4 zip file, org.zip as well as ROOT.war were all contributed by [CY](http://github.com/cytanss) and the playbooks were inspired by the manual steps used to deploy the JBoss EAP server and coolstore application.
