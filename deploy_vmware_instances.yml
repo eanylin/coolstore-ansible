@@ -4,20 +4,21 @@
   become: no
   gather_facts: no
   vars:
-    vmware_datacenter: 'Datacenter1'
-    vmware_cluster: 'cluster1'
-    vm_name: 'postgresql-1'
-    vm_template: 'rhel8'
-    disk_size: 16
-    vmware_datastore: 'datastore1'
-    vm_memory: 16384
-    vm_cpu: 4
-    vm_network: 'VM Network'
-    vm_ip: 10.10.10.15
-    vm_network_netmask: 255.255.255.0
-    vm_network_gateway: 10.10.10.1
+    disk_size: 80
     network_domain: 'domain.com'
+    vm_cpu: 4
     vm_dns_server: 10.10.10.9
+    vm_ip: 10.10.10.15
+    vm_memory: 16384
+    vm_name: 'postgresql-1'
+    vm_network: 'VM Network'
+    vm_network_gateway: 10.10.10.1
+    vm_network_netmask: 255.255.255.0
+    vm_password: supersecret
+    vm_template: 'rhel8'
+    vmware_cluster: 'cluster1'
+    vmware_datacenter: 'Datacenter1'
+    vmware_datastore: 'datastore1'
 
   roles:
     - deploy_vmware_instances
