@@ -1,5 +1,5 @@
 ---
-- name: Deploy EC2 Instances
+- name: Deploy EC2 Instances - JBoss EAP VMs
   hosts: localhost
   become: no
   gather_facts: no
@@ -12,7 +12,8 @@
     aws_secret_key: xyz
     aws_security_group: sg-xyz
     aws_vpc_subnet_id: subnet-xyz
-    servers_to_be_deployed: ['jboss-eap-1','jboss-eap-2','postgresql-1']
+    jboss_server_1: 'jboss-eap-1'
+    jboss_server_2: 'jboss-eap-2'
 
   roles:
     - deploy_ec2_instances

@@ -1,7 +1,12 @@
 ---
-- name: Create EC2 Instances
+- name: Initialize Array
+  set_fact:
+    jboss_server_instance_id: []
+    jboss_server_instance_public_ip: []
+
+- name: Create JBoss EAP Server 1
   amazon.aws.ec2_instance:
-    name: "{{ item }}"
+    name: "{{ jboss_server_1 }}"
     key_name: "{{ aws_key_name }}"
     vpc_subnet_id: "{{ aws_vpc_subnet_id }}"
     instance_type: "{{ aws_instance_type }}"
@@ -12,11 +17,13 @@
     region: "{{ aws_region }}"
     state: running
     wait: true
-  loop: "{{ servers_to_be_deployed }}"
-  register: vm_info
+  register: jboss_1_vm_info
 
-- debug:
-    msg: "{{ vm_info.results.instances[0].instance_id }}"
+- set_fact:
+    jboss_server_1_instance_id: "{{ jboss_1_vm_info.results[0].instances[0].instance_id }}"
+    jboss_server_1_instance_public_ip: "{{ jboss_1_vm_info.results[0].instances[0].public_ip_address }}"
 
-- debug:
-    msg: "{{ vm_info.results.instances[0].public_ip_address }}"
+- name: Update Array
+  set_fact:
+    jboss_server_instance_id: "{{ jboss_server_instance_id + [jboss_server_1_instance_id] }}"
+    jboss_server_instance_public_ip: "{{ jboss_server_instance_public_ip + [jboss_server_1_instance_public_ip] }}"
