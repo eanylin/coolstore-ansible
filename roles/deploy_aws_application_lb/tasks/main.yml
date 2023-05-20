@@ -3,7 +3,7 @@
   community.aws.elb_target_group:
     name: "{{ app_server_target_group }}"
     protocol: http
-    port: "{{ app_listener_port }}"
+    port: "{{ app_listener_port | int }}"
     vpc_id: "{{ aws_vpc_id }}"
     health_check_protocol: http
     health_check_path: /
@@ -12,7 +12,7 @@
       - Id: "{{ jboss_eap_instance_id[0] }}"
         Port: "{{ app_listener_port }}"
       - Id: "{{ jboss_eap_instance_id[1] }}"
-        Port: "{{ app_listener_port }}"
+        Port: "{{ app_listener_port | int }}"
     region: "{{ aws_region }}"
     state: present
 
@@ -26,10 +26,14 @@
       - "{{ aws_vpc_subnet_id_zone_b }}"
     listeners:
       - Protocol: HTTP
-        Port: "{{ app_listener_port }}"
+        Port: "{{ app_listener_port | int }}"
         DefaultActions:
           - Type: forward
             TargetGroupName: "{{ app_server_target_group }}"
     region: "{{ aws_region }}"
     state: present
     wait: true
+  register: aws_alb_result
+
+- debug:
+    var: "{{ aws_alb_result }}"
