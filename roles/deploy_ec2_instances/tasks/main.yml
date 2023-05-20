@@ -16,4 +16,4 @@
   register: vm_info
 
 - debug:
-    msg: "{{ vm_info.instances[0] }}"
+    msg: "{{ vm_info }}"
