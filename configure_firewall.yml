@@ -1,0 +1,10 @@
+---
+- name: Configure Firewall
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    # Dummy task for now. To be updated.
+    - name: Configure Firewall
+      ansible.builtin.wait_for:
+        timeout: 60
