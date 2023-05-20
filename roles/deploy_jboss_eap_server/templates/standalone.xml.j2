@@ -160,7 +160,7 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:/jboss/datasources/CoolstoreDS" pool-name="CoolstoreDS">
-	            <connection-url>jdbc:postgresql://{{ psql_server }}:5432/{{ app_database }}</connection-url>
+	            <connection-url>jdbc:postgresql://{{ postgresql_ip[0] }}:5432/{{ app_database }}</connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
                     <driver>postgres</driver>
                     <security>

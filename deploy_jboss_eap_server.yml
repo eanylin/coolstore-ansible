@@ -14,7 +14,6 @@
     aws_region: ap-southeast-1
     aws_secret_key: xyz
     jboss_eap_directory: "/opt/jboss-eap-7.4"
-    psql_server: "10.10.10.20"
 
   roles:
     - deploy_jboss_eap_server
