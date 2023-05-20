@@ -9,12 +9,10 @@
     health_check_path: /
     successful_response_codes: "200"
     targets:
-      - Id: "{{ app_server1_id }}"
+      - Id: "{{ jboss_eap_instance_id[0] }}"
         Port: "{{ app_listener_port }}"
-      - Id: "{{ app_server2_id }}"
+      - Id: "{{ jboss_eap_instance_id[1] }}"
         Port: "{{ app_listener_port }}"
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
     region: "{{ aws_region }}"
     state: present
 
@@ -32,8 +30,6 @@
         DefaultActions:
           - Type: forward
             TargetGroupName: "{{ app_server_target_group }}"
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
     region: "{{ aws_region }}"
     state: present
     wait: true
