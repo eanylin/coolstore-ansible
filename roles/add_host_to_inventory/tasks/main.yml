@@ -5,7 +5,7 @@
     inventory: "{{ coolstore_inventory }}"
     state: present
     variables:
-      ansible_host: "{{ jboss_server_instance_public_ip[item] }}"
+      ansible_host: "{{ jboss_eap_instance_public_ip[item] }}"
   loop: "{{ range(0, jboss_eap_hostname | length) | list }}"
 
 - name: Create jboss group
