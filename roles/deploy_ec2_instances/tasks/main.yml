@@ -16,4 +16,7 @@
   register: vm_info
 
 - debug:
-    msg: "{{ vm_info }}"
+    msg: "{{ vm_info.results.instances[0].instance_id }}"
+
+- debug:
+    msg: "{{ vm_info.results.instances[0].public_ip_address }}"
