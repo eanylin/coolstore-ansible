@@ -13,3 +13,10 @@
     state: running
     wait: true
   loop: "{{ servers_to_be_deployed }}"
+  register: vm_info
+
+- debug:
+    msg: "{{ vm_info.instances }}"
+
+- debug:
+    msg: "{{ vm_info.instances.network_interfaces.association.public_ip }}"
