@@ -32,3 +32,4 @@
       password: '{{ vm_password }}'
     wait_for_customization: true
   loop: "{{ range(0, vm_name | length) | list }}"
+  ignore_errors: True
