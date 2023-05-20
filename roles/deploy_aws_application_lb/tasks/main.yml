@@ -36,4 +36,4 @@
   register: aws_alb_result
 
 - debug:
-    var: "{{ aws_alb_result }}"
+    var: aws_alb_result
