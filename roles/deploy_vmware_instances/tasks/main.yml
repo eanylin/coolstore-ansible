@@ -1,9 +1,6 @@
 ---
 - name: Create and Customize VMware Instance
   community.vmware.vmware_guest:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
     datacenter: "{{ vmware_datacenter }}"
     cluster: "{{ vmware_cluster }}"
     folder: "/{{ vmware_datacenter }}/vm"
