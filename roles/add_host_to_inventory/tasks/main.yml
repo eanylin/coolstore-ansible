@@ -1,0 +1,8 @@
+---
+- name: Add Host to Inventory
+  awx.awx.host:
+    name: "{{ host_name }}"
+    inventory: "{{ coolstore_inventory }}"
+    state: present
+    variables:
+      ansible_host: "{{ host_ip }}"

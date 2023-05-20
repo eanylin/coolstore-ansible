@@ -1,0 +1,12 @@
+---
+- name: Add Host to Inventory
+  hosts: localhost
+  become: no
+  gather_facts: no
+  vars:
+    host_name: test
+    coolstore_inventory: coolstore-demo
+    host_ip: 10.10.10.10
+
+  roles:
+    - add_host_to_inventory
