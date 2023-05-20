@@ -5,7 +5,7 @@
     cluster: "{{ vmware_cluster }}"
     folder: "/{{ vmware_datacenter }}/vm"
     validate_certs: no
-    name: "{{ vm_name }}"
+    name: "{{ vm_name[item] }}"
     template: "{{ vm_template }}"
     state: poweredon
     disk:
@@ -18,7 +18,7 @@
     networks:
     - name: "{{ vm_network }}"
       start_connected: true
-      ip: "{{ vm_ip }}"
+      ip: "{{ vm_ip[item] }}"
       netmask: "{{ vm_network_netmask }}"
       gateway: "{{ vm_network_gateway }}"
       domain: "{{ network_domain }}"
@@ -31,3 +31,4 @@
       hostname: "{{ vm_name }}"
       password: '{{ vm_password }}'
     wait_for_customization: true
+  loop: "{{ range(0, vm_name | length) | list }}"
