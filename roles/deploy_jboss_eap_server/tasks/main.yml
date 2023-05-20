@@ -35,8 +35,6 @@
     object: "{{ aws_object_name }}"
     dest: "/tmp/{{ aws_object_name }}"
     mode: get
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
     region: "{{ aws_region }}"
   delegate_to: localhost
 
