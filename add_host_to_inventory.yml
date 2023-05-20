@@ -4,9 +4,9 @@
   become: no
   gather_facts: no
   vars:
-    host_name: test
+    host_name: "{{ jboss_eap_instance_id }}"
     coolstore_inventory: coolstore-demo
-    host_ip: 10.10.10.10
+    host_ip: "{{ jboss_eap_instance_public_ip }}"
 
   roles:
     - add_host_to_inventory

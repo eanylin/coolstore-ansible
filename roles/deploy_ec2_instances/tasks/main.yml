@@ -47,5 +47,6 @@
 - name: Save information of array for subsequent workflow
   set_stats:
     data:
+      jboss_eap_hostname: "{{ [jboss_server_1] + [jboss_server_2] }}"
       jboss_eap_instance_id: "{{ jboss_server_instance_id }}"
       jboss_eap_instance_public_ip: "{{ jboss_server_instance_public_ip }}"
