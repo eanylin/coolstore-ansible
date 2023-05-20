@@ -23,7 +23,7 @@
       gateway: "{{ vm_network_gateway }}"
       domain: "{{ network_domain }}"
       dns_servers: "{{ vm_dns_server }}"
-    wait_for_ip_address: true
+#    wait_for_ip_address: true
     customization:
       domain: "{{ network_domain }}"
       dns_servers:
