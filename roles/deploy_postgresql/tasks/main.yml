@@ -83,7 +83,7 @@
     name: "{{ database }}"
     login_user: postgres
     login_password: "{{ postgres_user_password }}"
-    login_host: "{{ postgres_host_ip }}"
+    login_host: "{{ postgresql_ip[0] }}"
 
 - name: Connect to database, create user and grant access to database
   community.postgresql.postgresql_user:
@@ -94,7 +94,7 @@
     expires: infinity
     login_user: postgres
     login_password: "{{ postgres_user_password }}"
-    login_host: "{{ postgres_host_ip }}"
+    login_host: "{{ postgresql_ip[0] }}"
 
 - name: Permit traffic for postgresql service
   ansible.posix.firewalld:

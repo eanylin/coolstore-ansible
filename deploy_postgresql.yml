@@ -1,6 +1,6 @@
 ---
 - name: Deploy Postgresql
-  hosts: postgresql-1
+  hosts: "{{ postgresql_hostname[0] }}"
   remote_user: ec2-user
   become: yes
   gather_facts: no
@@ -9,7 +9,6 @@
     database_user: ansible
     database_user_password: ansible
     postgres_user_password: postgres
-    postgres_host_ip: 10.10.10.20
 
   roles:
     - deploy_postgresql
