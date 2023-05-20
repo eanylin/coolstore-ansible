@@ -30,6 +30,6 @@
         - "{{ vm_dns_server }}"
       hostname: "{{ vm_name[item] }}"
       password: '{{ vm_password }}'
-    wait_for_customization: true
+#    wait_for_customization: true
   loop: "{{ range(0, vm_name | length) | list }}"
   ignore_errors: True
