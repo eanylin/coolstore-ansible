@@ -8,7 +8,7 @@
     network_domain: 'domain.com'
     vm_cpu: 4
     vm_dns_server: 10.10.10.9
-    vm_ip: ['10.10.10.15','10.10.10.16']
+    vm_ip: ['10.10.10.20','10.10.10.21']
     vm_memory: 16384
     vm_name: ['postgresql-1','postgresql-2']
     vm_network: 'VM Network'

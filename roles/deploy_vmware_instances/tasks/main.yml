@@ -34,3 +34,9 @@
 #    wait_for_customization: true
   loop: "{{ range(0, vm_name | length) | list }}"
   ignore_errors: True
+
+- name: Save information of VM for subsequent workflow
+  set_stats:
+    data:
+      postgresql_hostname: "{{ vm_name }}"
+      postgresql_ip: "{{ vm_ip }}"

@@ -1,0 +1,20 @@
+---
+- name: Add Host to Inventory
+  awx.awx.host:
+    name: "{{ postgresql_hostname[item] }}"
+    inventory: "{{ coolstore_inventory }}"
+    state: present
+    variables:
+      ansible_host: "{{ postgresql_ip[item] }}"
+  loop: "{{ range(0, postgresql_hostname | length) | list }}"
+
+- name: Create postgresql group
+  awx.awx.group:
+    name: postgresql
+    inventory: "{{ coolstore_inventory }}"
+
+- name: Add host to postgresql group
+  awx.awx.group:
+    name: postgresql
+    inventory: "{{ coolstore_inventory }}"
+    hosts: "{{ postgresql_hostname }}"

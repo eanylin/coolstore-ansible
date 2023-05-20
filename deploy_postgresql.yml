@@ -9,7 +9,7 @@
     database_user: ansible
     database_user_password: ansible
     postgres_user_password: postgres
-    postgres_host_ip: 10.10.10.10
+    postgres_host_ip: 10.10.10.20
 
   roles:
     - deploy_postgresql

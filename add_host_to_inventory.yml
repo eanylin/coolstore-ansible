@@ -7,4 +7,5 @@
     coolstore_inventory: coolstore-demo
 
   roles:
-    - add_host_to_inventory
+    - add_jboss_eap_to_inventory
+    - add_postgresql_to_inventory
