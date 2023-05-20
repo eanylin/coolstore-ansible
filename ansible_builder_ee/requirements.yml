@@ -2,6 +2,9 @@
 collections:
   - amazon.aws
   - ansible.posix
+  - awx.awx
   - community.aws
   - community.general
   - community.postgresql
+  - community.vmware
+  - vmware.vmware_rest

@@ -1,4 +1,6 @@
+awxkit>=13.0.0
 boto3
 botocore
 ipaddress
 psycopg2-binary
+pyVmomi>=6.7
