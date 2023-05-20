@@ -4,6 +4,7 @@
     name: "{{ jboss_eap_hostname[item] }}"
     inventory: "{{ coolstore_inventory }}"
     state: present
+    enabled: true
     variables:
       ansible_host: "{{ jboss_eap_instance_public_ip[item] }}"
   loop: "{{ range(0, jboss_eap_hostname | length) | list }}"
