@@ -9,8 +9,6 @@
     network:
       assign_public_ip: true
     image_id: "{{ aws_image_id }}"
-    access_key: "{{ aws_access_key }}"
-    secret_key: "{{ aws_secret_key }}"
     region: "{{ aws_region }}"
     state: running
     wait: true
