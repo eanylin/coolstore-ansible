@@ -11,7 +11,8 @@
     aws_region: ap-southeast-1
     aws_secret_key: xyz
     aws_security_group: sg-xyz
-    aws_vpc_subnet_id: subnet-xyz
+    aws_vpc_subnet_id_vm1: subnet-abc
+    aws_vpc_subnet_id_vm2: subnet-xyz
     jboss_server_1: 'jboss-eap-1'
     jboss_server_2: 'jboss-eap-2'
 
