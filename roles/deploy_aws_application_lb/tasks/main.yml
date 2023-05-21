@@ -1,4 +1,5 @@
 ---
+# Note that port needs to be of integer type, else the playbook will fail
 - name: Create a target group with instance targets
   community.aws.elb_target_group:
     name: "{{ app_server_target_group }}"
