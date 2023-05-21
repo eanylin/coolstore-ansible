@@ -10,7 +10,7 @@
     successful_response_codes: "200"
     targets:
       - Id: "{{ jboss_eap_instance_id[0] }}"
-        Port: "{{ app_listener_port }}"
+        Port: "{{ app_listener_port | int }}"
       - Id: "{{ jboss_eap_instance_id[1] }}"
         Port: "{{ app_listener_port | int }}"
     region: "{{ aws_region }}"
