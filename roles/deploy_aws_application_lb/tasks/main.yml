@@ -35,13 +35,10 @@
     wait: true
   register: aws_alb_result
 
-- name: Wait for Application Load Balancer to be ready
-  ansible.builtin.uri:
-    url: "http://{{ aws_alb_result.dns_name }}:8080"
-  register: _result
-  until: _result.status == 200
-  retries: 12
-  delay: 10
-
 - debug:
-    msg: The Coolstore Application can be accessed via http://{{ aws_alb_result.dns_name }}:8080"
+    msg: "The Coolstore Application can be accessed via http://{{ aws_alb_result.dns_name }}:{{ app_listener_port }}"
+
+- name: Save AWS ALB Endpoint Info for subsequent workflow
+  set_stats:
+    data:
+      coolstore_app_endpoint: "http://{{ aws_alb_result.dns_name }}:{{ app_listener_port }}"

@@ -1,0 +1,10 @@
+---
+- name: Perform Rollback
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    # Dummy task for now. To be updated.
+    - name: Perform Rollback
+      ansible.builtin.wait_for:
+        timeout: 60
